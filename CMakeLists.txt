@@ -82,6 +82,10 @@ set(DRU_SCRIPTS
         run2.mac
         vis.mac
         # CRY_file
+		./objs/Donut.obj
+		./objs/Coin.obj
+		./objs/InnerHousing.obj
+		./objs/OuterHousing.obj
         )
 
 foreach (_script ${DRU_SCRIPTS})
