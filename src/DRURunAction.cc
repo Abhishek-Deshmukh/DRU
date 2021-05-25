@@ -39,6 +39,7 @@
 #include "G4LogicalVolume.hh"
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
+#include "DRUAnalyser.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -94,6 +95,9 @@ void DRURunAction::EndOfRunAction(const G4Run* run)
   G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
   accumulableManager->Merge();
 
+  auto* store = Analyser::GetInstance();
+  store->SaveToFile();
+
   // Compute dose = total energy deposit in a run and its variance
   //
   G4double edep  = fEdep.GetValue();
@@ -105,7 +109,7 @@ void DRURunAction::EndOfRunAction(const G4Run* run)
   const DRUDetectorConstruction* detectorConstruction
    = static_cast<const DRUDetectorConstruction*>
      (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
-  G4double mass = detectorConstruction->GetScoringVolume()->GetMass();
+  G4double mass = detectorConstruction->GetCoinVolume()->GetMass();
   G4double dose = edep/mass;
   G4double rmsDose = rms/mass;
 

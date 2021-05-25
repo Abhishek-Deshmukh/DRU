@@ -51,9 +51,8 @@ class DRUSteppingAction : public G4UserSteppingAction
 
   private:
     DRUEventAction*  fEventAction;
-    G4LogicalVolume* fScoringVolume;
+    G4LogicalVolume* fCoinVolume;
+    G4LogicalVolume* fVetoVolume;
 };
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif

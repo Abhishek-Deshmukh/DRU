@@ -46,13 +46,13 @@ class DRUDetectorConstruction : public G4VUserDetectorConstruction
 
     virtual G4VPhysicalVolume* Construct();
     
-    G4LogicalVolume* GetScoringVolume() const { return fScoringVolume; }
+    G4LogicalVolume* GetCoinVolume() const { return fCoinVolume; }
+    G4LogicalVolume* GetVetoVolume() const { return fVetoVolume; }
 
   protected:
-    G4LogicalVolume*  fScoringVolume;
+    G4LogicalVolume*  fCoinVolume;
+    G4LogicalVolume* fVetoVolume;
 };
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
 

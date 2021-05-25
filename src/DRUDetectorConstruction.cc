@@ -45,7 +45,8 @@
 
 DRUDetectorConstruction::DRUDetectorConstruction()
 : G4VUserDetectorConstruction(),
-  fScoringVolume(nullptr)
+  fCoinVolume(nullptr),
+  fVetoVolume(nullptr)
 { }
 
 DRUDetectorConstruction::~DRUDetectorConstruction()
@@ -222,7 +223,8 @@ G4VPhysicalVolume* DRUDetectorConstruction::Construct()
 
   // Set Coin as scoring volume
   //
-  fScoringVolume = logicCoin;
+  fCoinVolume = logicCoin;
+  fVetoVolume = logicDonut;
 
   //always return the physical World
   return physWorld;

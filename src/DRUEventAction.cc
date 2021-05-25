@@ -30,35 +30,38 @@
 #include "DRUEventAction.hh"
 #include "DRURunAction.hh"
 
+#include "DRUPrimaryGeneratorAction.hh"
 #include "G4Event.hh"
 #include "G4RunManager.hh"
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+#include "DRUAnalyser.hh"
 
 DRUEventAction::DRUEventAction(DRURunAction* runAction)
 : G4UserEventAction(),
   fRunAction(runAction),
-  fEdep(0.)
-{} 
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+  fEdepVeto(0.),
+  fEdepCoin(0.)
+{
+    store = Analyser::GetInstance();
+}
 
 DRUEventAction::~DRUEventAction()
-{}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+= default;
 
 void DRUEventAction::BeginOfEventAction(const G4Event*)
 {    
-  fEdep = 0.;
-}
+  fEdepVeto = 0.;
+  fEdepCoin = 0.;
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+}
 
 void DRUEventAction::EndOfEventAction(const G4Event*)
 {   
   // accumulate statistics in run action
-  fRunAction->AddEdep(fEdep);
-}
+  fRunAction->AddEdep(fEdepVeto - fEdepCoin);
+  G4double ParticleEnergy;
+  const auto *fPrimAction = static_cast<const DRUPrimaryGeneratorAction*>(G4RunManager::GetRunManager()->GetUserPrimaryGeneratorAction());
+  if (!fPrimAction)return;
+  ParticleEnergy = fPrimAction->GetParticleGun()->GetParticleEnergy();
+  store->AppendRow(ParticleEnergy, fEdepCoin, fEdepVeto);
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+}

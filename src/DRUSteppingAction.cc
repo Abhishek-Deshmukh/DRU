@@ -36,28 +36,24 @@
 #include "G4RunManager.hh"
 #include "G4LogicalVolume.hh"
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 DRUSteppingAction::DRUSteppingAction(DRUEventAction* eventAction)
 : G4UserSteppingAction(),
   fEventAction(eventAction),
-  fScoringVolume(0)
+  fCoinVolume(nullptr),
+  fVetoVolume(nullptr)
 {}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 DRUSteppingAction::~DRUSteppingAction()
 {}
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 void DRUSteppingAction::UserSteppingAction(const G4Step* step)
 {
-  if (!fScoringVolume) { 
+  if (!fCoinVolume) {
     const DRUDetectorConstruction* detectorConstruction
       = static_cast<const DRUDetectorConstruction*>
         (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
-    fScoringVolume = detectorConstruction->GetScoringVolume();   
+    fCoinVolume = detectorConstruction->GetCoinVolume();
+    fVetoVolume = detectorConstruction->GetVetoVolume();
   }
 
   // get volume of the current step
@@ -65,13 +61,11 @@ void DRUSteppingAction::UserSteppingAction(const G4Step* step)
     = step->GetPreStepPoint()->GetTouchableHandle()
       ->GetVolume()->GetLogicalVolume();
       
-  // check if we are in scoring volume
-  if (volume != fScoringVolume) return;
-
-  // collect energy deposited in this step
-  G4double edepStep = step->GetTotalEnergyDeposit();
-  fEventAction->AddEdep(edepStep);  
+  // check if we are in Coin/Veto volume
+    // collect energy deposited in this step
+  if (volume == fCoinVolume) {
+      fEventAction->AddEdepCoin(step->GetTotalEnergyDeposit());
+  } else if (volume == fVetoVolume) {
+      fEventAction->AddEdepVeto(step->GetTotalEnergyDeposit());
+  }
 }
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
