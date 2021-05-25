@@ -18,7 +18,7 @@ private:
 	G4double min_energy;
 	G4double max_energy;
 	G4int intervals_count;
-	std::vector < G4double > *energies;
+	std::vector < G4double > energies;
 };
 
 #endif

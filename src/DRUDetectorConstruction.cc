@@ -67,7 +67,7 @@ G4VPhysicalVolume* DRUDetectorConstruction::Construct()
   // ENVELOPE
   // specifications
   G4double env_sizeXY = 0.2*m;
-  G4double env_sizeZ = 0.2*m;
+  G4double env_sizeZ = env_sizeXY;
   G4Material* env_mat = nist->FindOrBuildMaterial("G4_AIR");
 
 

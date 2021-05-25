@@ -86,6 +86,9 @@ set(DRU_SCRIPTS
 		./objs/Coin.obj
 		./objs/InnerHousing.obj
 		./objs/OuterHousing.obj
+        ./SNOLABBackgrounds/SnoLab_Th-gamma_albedo.dat
+        ./SNOLABBackgrounds/SnoLab_U-gamma_albedo.dat
+        ./SNOLABBackgrounds/SnoLab_neutron_albedo.dat
         )
 
 foreach (_script ${DRU_SCRIPTS})
