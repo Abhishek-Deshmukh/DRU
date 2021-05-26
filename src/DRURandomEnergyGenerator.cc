@@ -44,8 +44,6 @@ void DRURandomEnergyGenerator::generate_energies() {
     for(int n=0; n < 1000; ++n) {
 		energy =
 			min_energy + ((discrete_dist(dre) + 1) * (max_energy - min_energy) / intervals_count );
-        // DEBUG
-        G4cout << "New particle (" << n << ") with energy :" << energy << G4endl;
 		energies.push_back(energy);
 	}
 }

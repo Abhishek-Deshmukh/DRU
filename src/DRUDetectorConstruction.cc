@@ -38,6 +38,7 @@
 #include "G4Orb.hh"
 #include "G4Sphere.hh"
 #include "G4Trd.hh"
+#include "G4Tubs.hh"
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
 #include "G4SystemOfUnits.hh"
@@ -65,6 +66,13 @@ G4VPhysicalVolume* DRUDetectorConstruction::Construct()
     G4Colour  cyan    (0.0, 1.0, 1.0) ;  // cyan
     G4Colour  magenta (1.0, 0.0, 1.0) ;  // magenta
     G4Colour  yellow  (1.0, 1.0, 0.0) ;  // yellow
+
+  // Weird units
+  static const G4double inch = 2.54*cm;
+  static const G4double housing_height = 3.0*cm;
+  static const G4double veto_height = 2.7*cm;
+  static const G4double inner_radius = 0.5*inch + 1*mm;
+
   // ENVELOPE
   // specifications
   G4double env_sizeXY = 0.2*m;
@@ -131,7 +139,8 @@ G4VPhysicalVolume* DRUDetectorConstruction::Construct()
         
   // Importing obj/Donut.obj
   auto donutMesh = CADMesh::TessellatedMesh::FromOBJ("./objs/Donut.obj");
-                      
+  auto* solidCylinder = new G4Tubs("TopCylinder", 0, inner_radius, veto_height/2, 0.0*deg, 360.0*deg);
+
   auto* logicDonut =
     new G4LogicalVolume(donutMesh->GetSolid(),        //its solid
                         donut_mat,          //its material
@@ -147,10 +156,66 @@ G4VPhysicalVolume* DRUDetectorConstruction::Construct()
                     0,                       //copy number
                     checkOverlaps);          //overlaps checking
 
-  //     
+  // Top donut
+  auto* logicTopDonut =
+          new G4LogicalVolume(donutMesh->GetSolid(),        //its solid
+                              donut_mat,          //its material
+                              "Donut");           //its name
+  logicTopDonut->SetVisAttributes(donut_vis);
+
+  new G4PVPlacement(nullptr,                       //no rotation
+                    G4ThreeVector(0, 0, veto_height),  //at position
+                    logicTopDonut,             //its logical volume
+                    "TopDonut",                //its name
+                    logicEnv,                //its mother  volume
+                    false,                   //no boolean operation
+                    0,                       //copy number
+                    checkOverlaps);          //overlaps checking
+
+  auto* logicTopCylinder = new G4LogicalVolume(solidCylinder, donut_mat, "TopCylinder");
+  logicTopCylinder->SetVisAttributes(donut_vis);
+
+  new G4PVPlacement(nullptr,                       //no rotation
+                    G4ThreeVector(0, 0, veto_height*1.5 + 2*mm),  //at position
+                    logicTopCylinder,             //its logical volume
+                    "TopCylinder",                //its name
+                    logicEnv,                //its mother  volume
+                    false,                   //no boolean operation
+                    0,                       //copy number
+                    checkOverlaps);          //overlaps checking
+
+  // Bottom donut
+  auto* logicBotDonut =
+          new G4LogicalVolume(donutMesh->GetSolid(),        //its solid
+                              donut_mat,          //its material
+                              "Donut");           //its name
+  logicBotDonut->SetVisAttributes(donut_vis);
+
+  new G4PVPlacement(nullptr,                       //no rotation
+                    G4ThreeVector(0, 0, -veto_height),  //at position
+                    logicBotDonut,             //its logical volume
+                    "BotDonut",                //its name
+                    logicEnv,                //its mother  volume
+                    false,                   //no boolean operation
+                    0,                       //copy number
+                    checkOverlaps);          //overlaps checking
+
+    auto* logicBotCylinder = new G4LogicalVolume(solidCylinder, donut_mat, "BotCylinder");
+    logicBotCylinder->SetVisAttributes(donut_vis);
+
+    new G4PVPlacement(nullptr,                       //no rotation
+                      G4ThreeVector(0, 0, -veto_height*0.5 - 1*mm),
+                      logicBotCylinder,             //its logical volume
+                      "BotCylinder",                //its name
+                      logicEnv,                //its mother  volume
+                      false,                   //no boolean operation
+                      0,                       //copy number
+                      checkOverlaps);          //overlaps checking
+
+  //
   // Coin
   //
-  G4Material* coin_mat = nist->FindOrBuildMaterial("G4_Si");
+  G4Material* coin_mat = nist->FindOrBuildMaterial("G4_Ge");
   auto* coin_vis = new G4VisAttributes(green);
 
   // Importing obj/Coin.obj
@@ -205,7 +270,8 @@ G4VPhysicalVolume* DRUDetectorConstruction::Construct()
 
   // Importing obj/OuterHousing.obj
   auto outerHousingMesh = CADMesh::TessellatedMesh::FromOBJ("./objs/OuterHousing.obj");
-                
+
+  // Middle/Main housing
   auto* logicOuterHousing =
     new G4LogicalVolume(outerHousingMesh->GetSolid(),       //its solid
                         outer_housing_mat,          //its material
@@ -221,10 +287,46 @@ G4VPhysicalVolume* DRUDetectorConstruction::Construct()
                     0,                       //copy number
                     checkOverlaps);          //overlaps checking
 
+  // Top housing
+  auto* logicTopOuterHousing =
+          new G4LogicalVolume(outerHousingMesh->GetSolid(),       //its solid
+                              outer_housing_mat,          //its material
+                              "OuterTopHousing");           //its name
+  logicTopOuterHousing->SetVisAttributes(outer_housing_vis);
+
+  new G4PVPlacement(nullptr,                       //no rotation
+                    G4ThreeVector(0, 0, housing_height),  //at position
+                    logicTopOuterHousing,       //its logical volume
+                    "OuterTopHousing",          //its name
+                    logicEnv,                //its mother  volume
+                    false,                   //no boolean operation
+                    0,                       //copy number
+                    checkOverlaps);          //overlaps checking
+
+  // Bottom housing
+  auto* logicBotOuterHousing =
+          new G4LogicalVolume(outerHousingMesh->GetSolid(),       //its solid
+                              outer_housing_mat,          //its material
+                              "OuterBotHousing");           //its name
+  logicBotOuterHousing->SetVisAttributes(outer_housing_vis);
+
+  new G4PVPlacement(nullptr,                       //no rotation
+                    G4ThreeVector(0, 0, -housing_height),  //at position
+                    logicBotOuterHousing,       //its logical volume
+                    "OuterBotHousing",          //its name
+                    logicEnv,                //its mother  volume
+                    false,                   //no boolean operation
+                    0,                       //copy number
+                    checkOverlaps);          //overlaps checking
+
   // Set Coin as scoring volume
   //
   fCoinVolume = logicCoin;
   fVetoVolume = logicDonut;
+  fTopDonutVolume = logicTopDonut;
+  fTopCylinderVolume = logicTopCylinder;
+  fBotDonutVolume = logicBotDonut;
+  fBotCylinderVolume = logicBotCylinder;
 
   //always return the physical World
   return physWorld;
