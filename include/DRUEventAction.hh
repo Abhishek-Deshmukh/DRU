@@ -50,11 +50,19 @@ class DRUEventAction : public G4UserEventAction
 
     void AddEdepVeto(G4double edep) { fEdepVeto += edep; }
     void AddEdepCoin(G4double edep) { fEdepCoin += edep; }
+    void AddEdepTopDonut(G4double edep) { fEdepTopDonut += edep; }
+    void AddEdepTopCylinder(G4double edep) { fEdepTopCylinder += edep; }
+    void AddEdepBotDonut(G4double edep) { fEdepBotDonut += edep; }
+    void AddEdepBotCylinder(G4double edep) { fEdepBotCylinder += edep; }
 
   private:
     DRURunAction* fRunAction;
     G4double     fEdepVeto;
     G4double     fEdepCoin;
+    G4double     fEdepTopDonut;
+    G4double     fEdepTopCylinder;
+    G4double     fEdepBotDonut;
+    G4double     fEdepBotCylinder;
     Analyser*    store;
 };
 

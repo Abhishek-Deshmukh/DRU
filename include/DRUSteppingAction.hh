@@ -53,6 +53,10 @@ class DRUSteppingAction : public G4UserSteppingAction
     DRUEventAction*  fEventAction;
     G4LogicalVolume* fCoinVolume;
     G4LogicalVolume* fVetoVolume;
+    G4LogicalVolume* fTopDonutVolume;
+    G4LogicalVolume* fTopCylinderVolume;
+    G4LogicalVolume* fBotDonutVolume;
+    G4LogicalVolume* fBotCylinderVolume;
 };
 
 #endif

@@ -39,7 +39,11 @@ DRUEventAction::DRUEventAction(DRURunAction* runAction)
 : G4UserEventAction(),
   fRunAction(runAction),
   fEdepVeto(0.),
-  fEdepCoin(0.)
+  fEdepCoin(0.),
+  fEdepTopDonut(0.),
+  fEdepTopCylinder(0.),
+  fEdepBotDonut(0.),
+  fEdepBotCylinder(0.)
 {
     store = Analyser::GetInstance();
 }
@@ -51,6 +55,10 @@ void DRUEventAction::BeginOfEventAction(const G4Event*)
 {    
   fEdepVeto = 0.;
   fEdepCoin = 0.;
+  fEdepTopDonut = 0.;
+  fEdepTopCylinder = 0.;
+  fEdepBotDonut = 0.;
+  fEdepBotCylinder = 0.;
 
 }
 
@@ -62,6 +70,6 @@ void DRUEventAction::EndOfEventAction(const G4Event*)
   const auto *fPrimAction = static_cast<const DRUPrimaryGeneratorAction*>(G4RunManager::GetRunManager()->GetUserPrimaryGeneratorAction());
   if (!fPrimAction)return;
   ParticleEnergy = fPrimAction->GetParticleGun()->GetParticleEnergy();
-  store->AppendRow(ParticleEnergy, fEdepCoin, fEdepVeto);
+  store->AppendRow(ParticleEnergy, fEdepCoin, fEdepVeto, fEdepTopDonut, fEdepTopCylinder, fEdepBotDonut, fEdepBotCylinder);
 
 }

@@ -54,6 +54,10 @@ void DRUSteppingAction::UserSteppingAction(const G4Step* step)
         (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
     fCoinVolume = detectorConstruction->GetCoinVolume();
     fVetoVolume = detectorConstruction->GetVetoVolume();
+    fTopDonutVolume = detectorConstruction->GetTopDonutVolume();
+    fTopCylinderVolume = detectorConstruction->GetTopCylinderVolume();
+    fBotDonutVolume = detectorConstruction->GetBotDonutVolume();
+    fBotCylinderVolume = detectorConstruction->GetBotCylinderVolume();
   }
 
   // get volume of the current step
@@ -67,5 +71,13 @@ void DRUSteppingAction::UserSteppingAction(const G4Step* step)
       fEventAction->AddEdepCoin(step->GetTotalEnergyDeposit());
   } else if (volume == fVetoVolume) {
       fEventAction->AddEdepVeto(step->GetTotalEnergyDeposit());
+  } else if (volume == fTopDonutVolume) {
+      fEventAction->AddEdepTopDonut(step->GetTotalEnergyDeposit());
+  } else if (volume == fTopCylinderVolume) {
+      fEventAction->AddEdepTopCylinder(step->GetTotalEnergyDeposit());
+  } else if (volume == fBotDonutVolume) {
+      fEventAction->AddEdepBotDonut(step->GetTotalEnergyDeposit());
+  } else if (volume == fBotCylinderVolume) {
+      fEventAction->AddEdepBotCylinder(step->GetTotalEnergyDeposit());
   }
 }

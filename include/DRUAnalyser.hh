@@ -18,7 +18,7 @@ public:
 //    void SetParticleEnergy(G4double energy) { ParticleEnergy = energy;}
 //    void SetEdepCoin(G4double edep) {EdepCoin = edep;}
 //    void SetEdepVeto(G4double edep) {EdepVeto = edep;}
-    void AppendRow(G4double particleEnergy, G4double CoinEnergy, G4double VetoEnergy);
+    void AppendRow(G4double particleEnergy, G4double CoinEnergy, G4double VetoEnergy, G4double TopDonutEnergy, G4double TopCylinderEnergy, G4double BotDonutEnergy, G4double BotCylinderEnergy);
     void SaveToFile();
 private:
     static Analyser* instance;
@@ -27,6 +27,10 @@ private:
     G4double ParticleEnergy;
     G4double EdepCoin;
     G4double EdepVeto;
+    G4double EdepTopDonut;
+    G4double EdepTopCylinder;
+    G4double EdepBotDonut;
+    G4double EdepBotCylinder;
 };
 
 #endif

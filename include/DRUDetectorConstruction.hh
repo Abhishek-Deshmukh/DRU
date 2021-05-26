@@ -48,6 +48,10 @@ class DRUDetectorConstruction : public G4VUserDetectorConstruction
     
     G4LogicalVolume* GetCoinVolume() const { return fCoinVolume; }
     G4LogicalVolume* GetVetoVolume() const { return fVetoVolume; }
+    G4LogicalVolume* GetTopDonutVolume() const { return fTopDonutVolume; }
+    G4LogicalVolume* GetTopCylinderVolume() const { return fTopCylinderVolume; }
+    G4LogicalVolume* GetBotDonutVolume() const { return fBotDonutVolume; }
+    G4LogicalVolume* GetBotCylinderVolume() const { return fBotCylinderVolume; }
 
   protected:
     G4LogicalVolume*  fCoinVolume;
