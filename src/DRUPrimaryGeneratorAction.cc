@@ -100,8 +100,8 @@ void DRUPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   G4double size = 0.9;
   G4double x_max = size * envSizeXY /2;
   G4double y_max = size * envSizeXY /2;
-  G4double z_max = size * envSizeZ /2;
-  G4double x, y, z, energy, u, v, w, norm;
+  G4double z_max = size * envSizeZ  /2;
+  G4double x, y, z, energy, u, v, w, norm, a, b, c;
 
   // Muller method for generating random point on the sphere surface
   u = G4UniformRand() - 0.5; // goes form -0.5 to 0.5
@@ -111,11 +111,19 @@ void DRUPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   x = (u/norm)*x_max;
   y = (v/norm)*y_max;
   z = (w/norm)*z_max;
+
+  u = G4UniformRand() - 0.5; // goes form -0.5 to 0.5
+  v = G4UniformRand() - 0.5;
+  w = G4UniformRand() - 0.5;
+  norm = sqrt(u*u + v*v + w*w);
+  a = (u/norm)*x_max;
+  b = (v/norm)*y_max;
+  c = (w/norm)*z_max;
   energy = energy_generator->get_energy();
 
   G4cout << x  << " " << y << " " << z << G4endl;
-  fParticleGun->SetParticlePosition(G4ThreeVector(x*cm,y*cm,z*cm));
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(-x,-y,-z));
+  fParticleGun->SetParticlePosition(G4ThreeVector(x*mm,y*mm,z*mm));
+  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(a-x,b-y,c-z));
   fParticleGun->SetParticleEnergy(energy*MeV);
   fParticleGun->GeneratePrimaryVertex(anEvent);
 }
