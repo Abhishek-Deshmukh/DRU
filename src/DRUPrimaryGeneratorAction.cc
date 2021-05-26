@@ -73,6 +73,7 @@ void DRUPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   // In order to avoid dependence of PrimaryGeneratorAction
   // on DetectorConstruction class we get Envelope volume
   // from G4LogicalVolumeStore.
+  G4cout << "Event ID: " << anEvent->GetEventID() << G4endl;
   
   G4double envSizeXY = 0;
   G4double envSizeZ = 0;
@@ -121,7 +122,6 @@ void DRUPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   c = (w/norm)*z_max;
   energy = energy_generator->get_energy();
 
-  G4cout << x  << " " << y << " " << z << G4endl;
   fParticleGun->SetParticlePosition(G4ThreeVector(x*mm,y*mm,z*mm));
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(a-x,b-y,c-z));
   fParticleGun->SetParticleEnergy(energy*MeV);
