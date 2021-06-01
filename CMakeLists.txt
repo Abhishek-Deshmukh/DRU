@@ -89,6 +89,7 @@ set(DRU_SCRIPTS
         ./SNOLABBackgrounds/SnoLab_Th-gamma_albedo.dat
         ./SNOLABBackgrounds/SnoLab_U-gamma_albedo.dat
         ./SNOLABBackgrounds/SnoLab_neutron_albedo.dat
+        ./multi.sh
         )
 
 foreach (_script ${DRU_SCRIPTS})

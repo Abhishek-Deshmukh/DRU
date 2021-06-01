@@ -47,23 +47,23 @@ DRURunAction::DRURunAction()
 : G4UserRunAction(),
   fEdep(0.),
   fEdep2(0.)
-{ 
+{
   // add new units for dose
-  // 
+  //
   const G4double milligray = 1.e-3*gray;
   const G4double microgray = 1.e-6*gray;
-  const G4double nanogray  = 1.e-9*gray;  
+  const G4double nanogray  = 1.e-9*gray;
   const G4double picogray  = 1.e-12*gray;
-   
+
   new G4UnitDefinition("milligray", "milliGy" , "Dose", milligray);
   new G4UnitDefinition("microgray", "microGy" , "Dose", microgray);
   new G4UnitDefinition("nanogray" , "nanoGy"  , "Dose", nanogray);
-  new G4UnitDefinition("picogray" , "picoGy"  , "Dose", picogray); 
+  new G4UnitDefinition("picogray" , "picoGy"  , "Dose", picogray);
 
   // Register accumulable to the accumulable manager
   G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
   accumulableManager->RegisterAccumulable(fEdep);
-  accumulableManager->RegisterAccumulable(fEdep2); 
+  accumulableManager->RegisterAccumulable(fEdep2);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -74,7 +74,7 @@ DRURunAction::~DRURunAction()
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void DRURunAction::BeginOfRunAction(const G4Run*)
-{ 
+{
   // inform the runManager to save random number seed
   G4RunManager::GetRunManager()->SetRandomNumberStore(false);
 
@@ -91,7 +91,7 @@ void DRURunAction::EndOfRunAction(const G4Run* run)
   G4int nofEvents = run->GetNumberOfEvent();
   if (nofEvents == 0) return;
 
-  // Merge accumulables 
+  // Merge accumulables
   G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
   accumulableManager->Merge();
 
@@ -102,14 +102,16 @@ void DRURunAction::EndOfRunAction(const G4Run* run)
   //
   G4double edep  = fEdep.GetValue();
   G4double edep2 = fEdep2.GetValue();
-  
+
   G4double rms = edep2 - edep*edep/nofEvents;
-  if (rms > 0.) rms = std::sqrt(rms); else rms = 0.;  
+  if (rms > 0.) rms = std::sqrt(rms); else rms = 0.;
 
   const DRUDetectorConstruction* detectorConstruction
    = static_cast<const DRUDetectorConstruction*>
      (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
   G4double mass = detectorConstruction->GetCoinVolume()->GetMass();
+  G4cout << "****************************************************************************************************************************************************************" << G4endl;
+  G4cout << "mass " << mass << G4endl;
   G4double dose = edep/mass;
   G4double rmsDose = rms/mass;
 
@@ -128,9 +130,9 @@ void DRURunAction::EndOfRunAction(const G4Run* run)
     G4double particleEnergy = particleGun->GetParticleEnergy();
     runCondition += G4BestUnit(particleEnergy,"Energy");
   }
-        
+
   // Print
-  //  
+  //
 //  if (IsMaster()) {
 //    G4cout
 //     << G4endl

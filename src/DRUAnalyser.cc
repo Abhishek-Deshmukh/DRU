@@ -3,11 +3,11 @@
 
 Analyser* Analyser::instance=nullptr;
 
-Analyser::Analyser(){
-    // TODO: get this file name dynamically
-    rootFile = new TFile("output.root", "recreate");
+void Analyser::SetFileName(G4String file_name) {
+    ROOT::EnableThreadSafety();
+    rootFile = new TFile(file_name, "recreate");
+    ROOT::EnableThreadSafety();
     tree = new TTree("EDTree", "EventData");
-
     tree->Branch("ParticleEnergy", &ParticleEnergy, "ParticleEnergy/D");
     tree->Branch("CoinEnergyDep", &EdepCoin, "CoinEnergyDep/D");
     tree->Branch("VetoEnergyDep", &EdepVeto, "VetoEnergyDep/D");
@@ -15,6 +15,9 @@ Analyser::Analyser(){
     tree->Branch("TopCylinderEnergyDep", &EdepTopCylinder, "TopCylinderEnergyDep/D");
     tree->Branch("BotDonutEnergyDep", &EdepBotDonut, "BotDonutEnergyDep/D");
     tree->Branch("BotCylinderEnergyDep", &EdepBotCylinder, "BotCylinderEnergyDep/D");
+}
+
+Analyser::Analyser(){
 
     ParticleEnergy = 0;
     EdepCoin = 0;
@@ -31,6 +34,7 @@ Analyser* Analyser::GetInstance() {
 }
 
 void Analyser::SaveToFile() {
+    ROOT::EnableThreadSafety();
     rootFile->cd();
     rootFile->Write();
     rootFile->Close();
@@ -46,5 +50,6 @@ void Analyser::AppendRow(G4double particleEnergy, G4double CoinEnergy, G4double 
     EdepTopCylinder = TopCylinderEnergy;
     EdepBotDonut = BotDonutEnergy;
     EdepBotCylinder = BotCylinderEnergy;
+    ROOT::EnableThreadSafety();
     tree->Fill();
 }

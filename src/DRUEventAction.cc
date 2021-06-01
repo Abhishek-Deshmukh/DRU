@@ -52,7 +52,7 @@ DRUEventAction::~DRUEventAction()
 = default;
 
 void DRUEventAction::BeginOfEventAction(const G4Event*)
-{    
+{
   fEdepVeto = 0.;
   fEdepCoin = 0.;
   fEdepTopDonut = 0.;
@@ -63,7 +63,7 @@ void DRUEventAction::BeginOfEventAction(const G4Event*)
 }
 
 void DRUEventAction::EndOfEventAction(const G4Event*)
-{   
+{
   // accumulate statistics in run action
   fRunAction->AddEdep(fEdepVeto - fEdepCoin);
   G4double ParticleEnergy;

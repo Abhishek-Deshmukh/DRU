@@ -14,10 +14,8 @@ class Analyser {
 public:
     Analyser();
     ~Analyser();
+    void SetFileName(G4String file_name);
     static Analyser* GetInstance();
-//    void SetParticleEnergy(G4double energy) { ParticleEnergy = energy;}
-//    void SetEdepCoin(G4double edep) {EdepCoin = edep;}
-//    void SetEdepVeto(G4double edep) {EdepVeto = edep;}
     void AppendRow(G4double particleEnergy, G4double CoinEnergy, G4double VetoEnergy, G4double TopDonutEnergy, G4double TopCylinderEnergy, G4double BotDonutEnergy, G4double BotCylinderEnergy);
     void SaveToFile();
 private:
