@@ -44,12 +44,12 @@ void Analyser::AppendRow(G4double particleEnergy, G4double CoinEnergy, G4double 
                          G4double TopCylinderEnergy, G4double BotDonutEnergy, G4double BotCylinderEnergy) {
 
     ParticleEnergy = particleEnergy;
-    EdepCoin = CoinEnergy;
-    EdepVeto = VetoEnergy;
-    EdepTopDonut = TopDonutEnergy;
-    EdepTopCylinder = TopCylinderEnergy;
-    EdepBotDonut = BotDonutEnergy;
-    EdepBotCylinder = BotCylinderEnergy;
+    EdepCoin = CoinEnergy/MeV;
+    EdepVeto = VetoEnergy/MeV;
+    EdepTopDonut = TopDonutEnergy/MeV;
+    EdepTopCylinder = TopCylinderEnergy/MeV;
+    EdepBotDonut = BotDonutEnergy/MeV;
+    EdepBotCylinder = BotCylinderEnergy/MeV;
     ROOT::EnableThreadSafety();
     tree->Fill();
 }
