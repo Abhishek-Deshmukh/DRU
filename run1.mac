@@ -1,10 +1,10 @@
 # Macro file for example DRU
-# 
+#
 # Can be run in batch, without graphic
 # or interactively: Idle> /control/execute run1.mac
 #
-# Change the default number of workers (in multi-threading mode) 
-/run/numberOfThreads 4
+# Change the default number of workers (in multi-threading mode)
+/run/numberOfThreads 1
 
 # Initialize kernel
 /run/initialize

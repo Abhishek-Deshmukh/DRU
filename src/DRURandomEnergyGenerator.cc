@@ -8,8 +8,8 @@ DRURandomEnergyGenerator::DRURandomEnergyGenerator() {
 	// DEBUG
 	G4cout << "Fixing value" << G4endl;
 	min_energy = 0;
-	max_energy = 400;
-	intervals_count = 40;
+	max_energy = 2500;
+	intervals_count = 250;
 	energies = {};
 	this->generate_energies();
 }
