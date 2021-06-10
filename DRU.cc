@@ -85,11 +85,11 @@ int main(int argc,char** argv)
 
   // Process macro or start UI session
   //
+  Analyser* store = Analyser::GetInstance();
   if ( ! ui ) {
     // batch mode
     G4String command = "/control/execute ";
     G4String fileName = argv[1];
-    Analyser* store = Analyser::GetInstance();
     if (argc == 3) {
       store->SetFileName(argv[2]);
     } else {
@@ -99,6 +99,7 @@ int main(int argc,char** argv)
   }
   else {
     // interactive mode
+    store->SetFileName("output.root");
     UImanager->ApplyCommand("/control/execute init_vis.mac");
     ui->SessionStart();
     delete ui;

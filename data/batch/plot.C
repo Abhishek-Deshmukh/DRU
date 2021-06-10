@@ -59,7 +59,7 @@ void plot() {
   c3->SaveAs("ssc_0_400.png");
 
   TH1F *h4 = new TH1F("h4", "Single Scatter cut (50-300KeV)", 250, 50, 300);
-  h4->SetTitle("Single-scatter cut (50-350KeV)");
+  h4->SetTitle("Single-scatter cut (50-300KeV)");
   h4->GetXaxis()->SetTitle("Energy [KeV]");
   h4->GetYaxis()->SetTitle("Counts/KeV");
   TCanvas* c4 = new TCanvas("c4", "Single Scatter cut (50-300KeV)", 1024, 768);
