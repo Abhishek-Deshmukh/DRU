@@ -74,7 +74,7 @@ void DRUPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   // on DetectorConstruction class we get Envelope volume
   // from G4LogicalVolumeStore.
   G4cout << "Event ID: " << anEvent->GetEventID() << G4endl;
-  
+
   G4double envSizeXY = 0;
   G4double envSizeZ = 0;
 
@@ -88,10 +88,10 @@ void DRUPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   if ( fEnvelopeBox ) {
     envSizeXY = fEnvelopeBox->GetXHalfLength()*2.;
     envSizeZ = fEnvelopeBox->GetZHalfLength()*2.;
-  }  
+  }
   else  {
     G4ExceptionDescription msg;
-    msg << "Envelope volume of box shape not found.\n"; 
+    msg << "Envelope volume of box shape not found.\n";
     msg << "Perhaps you have changed geometry.\n";
     msg << "The gun will be place at the center.";
     G4Exception("DRUPrimaryGeneratorAction::GeneratePrimaries()",
@@ -99,9 +99,12 @@ void DRUPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   }
 
   G4double size = 0.9;
-  G4double x_max = size * envSizeXY /2;
-  G4double y_max = size * envSizeXY /2;
-  G4double z_max = size * envSizeZ  /2;
+  G4double x_big = size * envSizeXY /2;
+  G4double y_big = size * envSizeXY /2;
+  G4double z_big = size * envSizeZ  /2;
+  G4double x_small = 5 * cm;
+  G4double y_small = 5 * cm;
+  G4double z_small = 5 * cm;
   G4double x, y, z, energy, u, v, w, norm, a, b, c;
 
   // Muller method for generating random point on the sphere surface
@@ -109,17 +112,17 @@ void DRUPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   v = G4UniformRand() - 0.5;
   w = G4UniformRand() - 0.5;
   norm = sqrt(u*u + v*v + w*w);
-  x = (u/norm)*x_max;
-  y = (v/norm)*y_max;
-  z = (w/norm)*z_max;
+  x = (u/norm)*x_big;
+  y = (v/norm)*y_big;
+  z = (w/norm)*z_big;
 
   u = G4UniformRand() - 0.5; // goes form -0.5 to 0.5
   v = G4UniformRand() - 0.5;
   w = G4UniformRand() - 0.5;
   norm = sqrt(u*u + v*v + w*w);
-  a = (u/norm)*x_max;
-  b = (v/norm)*y_max;
-  c = (w/norm)*z_max;
+  a = (u/norm)*x_small;
+  b = (v/norm)*y_small;
+  c = (w/norm)*z_small;
   energy = energy_generator->get_energy();
 
   fParticleGun->SetParticlePosition(G4ThreeVector(x*mm,y*mm,z*mm));
