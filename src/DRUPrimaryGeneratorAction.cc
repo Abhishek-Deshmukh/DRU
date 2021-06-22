@@ -127,6 +127,6 @@ void DRUPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
   fParticleGun->SetParticlePosition(G4ThreeVector(x*mm,y*mm,z*mm));
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(a-x,b-y,c-z));
-  fParticleGun->SetParticleEnergy(energy*MeV);
+  fParticleGun->SetParticleEnergy(energy*keV);
   fParticleGun->GeneratePrimaryVertex(anEvent);
 }

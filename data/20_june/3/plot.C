@@ -68,13 +68,6 @@ void plot() {
   c4->SetLogy();
   c4->SaveAs("ssc_50_300.png");
 
-  TFile* histo = new TFile("OutputHisto.root", "RECREATE");
-  histo->cd();
-  h3->Write();
-  h4->Write();
-  histo->Write();
-  histo->Close();
-
   // calculating DRU
   Double_t mass_g = 11.194698, ideal_DRU = 235, DRU = 0;
   SSCT_50_300kev->SetBranchAddress("CoinEnergyDep", &CoinEnergy);
