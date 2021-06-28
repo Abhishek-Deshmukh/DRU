@@ -72,7 +72,7 @@ G4VPhysicalVolume* DRUDetectorConstruction::Construct()
   static const G4double housing_height = 3.0*cm;
   static const G4double veto_height = 2.7*cm;
   static const G4double inner_radius = 0.5*inch + 1*mm;
-  G4bool build_walls = false;
+  G4bool build_walls = true;
 
   // ENVELOPE
   // specifications

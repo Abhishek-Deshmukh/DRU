@@ -21,7 +21,7 @@ void DRURandomEnergyGenerator::generate_energies() {
     std::vector<int> weights;
 
     std::fstream hist_file;
-    hist_file.open("./SNOLABBackgrounds/SnoLab_Th-gamma_albedo.dat", std::ios::in);
+    hist_file.open("./SNOLABBackgrounds/total-gamma.dat", std::ios::in);
     if(!hist_file.is_open()) {
         G4cout << "Error: couldn't open file (DRURandomEnergyGenerator.cc) [Most probably the file name is wrong]" << G4endl;
         // TODO: make this stop the damn thing
