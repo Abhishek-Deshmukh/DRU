@@ -82,13 +82,11 @@ set(DRU_SCRIPTS
         run2.mac
         vis.mac
         # CRY_file
-		./objs/Donut.obj
-		./objs/Coin.obj
-		./objs/InnerHousing.obj
-		./objs/OuterHousing.obj
-        ./SNOLABBackgrounds/SnoLab_Th-gamma_albedo.dat
-        ./SNOLABBackgrounds/SnoLab_U-gamma_albedo.dat
-        ./SNOLABBackgrounds/SnoLab_neutron_albedo.dat
+        ./objs/Donut.obj
+        ./objs/Coin.obj
+        ./objs/InnerHousing.obj
+        ./objs/OuterHousing.obj
+        ./SNOLABBackgrounds/total-gamma.dat
         ./multi.sh
         )
 

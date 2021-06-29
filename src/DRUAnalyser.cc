@@ -43,7 +43,7 @@ void Analyser::SaveToFile() {
 void Analyser::AppendRow(G4double particleEnergy, G4double CoinEnergy, G4double VetoEnergy, G4double TopDonutEnergy,
                          G4double TopCylinderEnergy, G4double BotDonutEnergy, G4double BotCylinderEnergy) {
 
-    ParticleEnergy = particleEnergy;
+    ParticleEnergy = particleEnergy/keV;
     EdepCoin = CoinEnergy/keV;
     EdepVeto = VetoEnergy/keV;
     EdepTopDonut = TopDonutEnergy/keV;
