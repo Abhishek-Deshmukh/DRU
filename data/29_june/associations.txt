@@ -1,0 +1,5 @@
+build1: no walls
+build2: 2 cm walls
+build3: 4 cm walls
+build4: 6 cm walls
+build5: 8 cm walls
